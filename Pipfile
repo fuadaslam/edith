@@ -13,6 +13,8 @@ dictor = "*"
 uvicorn = "*"
 psycopg2 = "*"
 alembic = "*"
+requests = "*"
+wikipedia = "*"
 
 [requires]
 python_version = "3.7"
