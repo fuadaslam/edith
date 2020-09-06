@@ -1,7 +1,7 @@
 {
 	"name": "edith",
 	"displayName": "edith",
-	"description": "Assistant for VScode",
+	"description": "Assistant for vscode",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.48.0"
@@ -17,7 +17,7 @@
 		"commands": [
 			{
 				"command": "edith.helloWorld",
-				"title": "Hello World"
+				"title": "edith"
 			}
 		]
 	},

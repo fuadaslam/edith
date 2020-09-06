@@ -91,4 +91,7 @@ async def get_query(full_query: str):
 
     response = get_logic(data)
 
-    return json.dumps(response)
+    return {
+        'statusCode': 200,
+        'response':  response
+    }
