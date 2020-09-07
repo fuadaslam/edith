@@ -1,8 +1,4 @@
-
 const vscode = require('vscode');
-
-
-
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -14,13 +10,14 @@ function sentVoice(obj){
 
 
 	const request = require('request');
+	const data = JSON.parse(obj)
 	request({
 		url: 'http://127.0.0.1:8080/voice-query',
 		method: "POST",
 		headers: {
 			"content-type": "application/json",
 			},
-		json: obj
+		json: data
 		}, function (error, resp, body) {
 			if (err) { return console.log(err); }
 		});
@@ -31,18 +28,15 @@ function sentVoice(obj){
 
  function playSound(){
 
+	var fs = require('fs');
 	var player = require('play-sound')(opts = {})
 
  	player.play('/tmp/welcome.mp3', function (err) {
 		if (err) throw err;
 		console.log("Audio finished");
-		try {
-			fs.unlinkSync('/tmp/welcome.mp3')
-		} catch(err){
-			console.error(err)
-		}
- });
+		// fs.unlinkSync('/tmp/welcome.mp3');
 
+ });
 
 
  }
@@ -56,11 +50,14 @@ function sentVoice(obj){
 	exports.parseResult = function (err, resp, body) {
 
 		let obj = body
-		console.log(body)
 		sentVoice(obj);
-		// let obj = JSON.parse(body)
-		// console.log(obj.entities[0]);;
+		
+		setTimeout(function () {
+				playSound();
+				console.log("play")
+			  }, 3000)
 	  }
+	  console.log("here")
 	  
 	  record.start(
 			  {
@@ -82,6 +79,8 @@ function sentVoice(obj){
 			record.stop()
 		  }, 5000)
 	
+	return "ok"
+	
 
  }
 
@@ -95,11 +94,19 @@ function activate(context) {
 	vscode.commands.registerCommand(myListen, function () {
 		
 		vscode.window.showInformationMessage('Edith is listening...');
+		// do(1, 1).then(done);
+
 		micListen();
-		setTimeout(function () {
-		playSound();
-		console.log("play")
-	  }, 8000)
+		
+
+		// if(micListen.success()){
+		// 	playSound();
+		// }
+		// micListen().then(playSound);
+	// 	setTimeout(function () {
+	// 	playSound();
+	// 	console.log("play")
+	//   }, 8000)
 		
 		
 	});

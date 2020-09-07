@@ -9,8 +9,6 @@ import wikipedia
 from bs4 import BeautifulSoup
 from fastapi import FastAPI
 from pydantic import BaseModel, Json
-# import speech_recognition as sr
-# import pyttsx3
 from gtts import gTTS
 
 
@@ -27,9 +25,10 @@ class DynamicSchema(BaseModel):
 
 
 def speach_to_text(mytext):
+    mytext = mytext.split(".")[0]
     language = 'en'
     myobj = gTTS(text=mytext, lang=language, slow=False)
-    myobj.save("welcome.mp3")
+    myobj.save("/tmp/welcome.mp3")
     return None
 
 
@@ -126,7 +125,6 @@ async def get_query(full_query: str):
 
 @app.post("/voice-query")
 async def from_server(item: dict):
-    import pdb; pdb.set_trace()
     response = get_logic(item)
     speach_to_text(response)
 

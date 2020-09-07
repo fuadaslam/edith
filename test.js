@@ -95,7 +95,7 @@ let obj = {
   "entities": {
     "question:question": [
       {
-        "body": "facebook",
+        "body": "google",
         "confidence": 0.6903,
         "end": 16,
         "entities": [],
@@ -123,7 +123,7 @@ let obj = {
 
 const request = require('request');
      request({
-       url: 'http://127.0.0.1:8080/voice-query',
+       url: 'http://0.0.0.0:5000/voice-query',
        method: "POST",
        headers: {
            "content-type": "application/json",
