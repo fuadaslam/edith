@@ -1,35 +1,90 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+
 const vscode = require('vscode');
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+
+
 
 /**
  * @param {vscode.ExtensionContext} context
+ * 
  */
+
+
+
+ function playSound(){
+
+	var player = require('play-sound')(opts = {})
+
+ 	player.play('test.wav', function (err) {
+  	 // if (err) throw err;
+	console.log("Audio finished");
+	   
+ });
+
+
+
+ }
+
+ function micListen(){
+
+	var record = require('node-mic-record')
+	var fs = require('fs')
+	
+	var file = fs.createWriteStream('test.wav', { encoding: 'binary' })
+	
+	record.start({
+		sampleRate : 44100,
+		verbose : true,
+		recordProgram: 'arecord'
+	  }
+		
+	).pipe(file)
+	
+	// Stop recording after three seconds
+	setTimeout(function () {
+	  record.stop()
+	  console.log("audiso")
+	}, 5000)
+	// playSound();
+	
+
+ }
+
+
+
+
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "edith" is now active!');
+	const myListen = 'edith.listen';
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('edith.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from edith!');
+	vscode.commands.registerCommand(myListen, function () {
+		
+		vscode.window.showInformationMessage('Edith is listening...');
+		micListen();
+		setTimeout(function () {
+		playSound();
+		console.log("play")
+	  }, 8000)
+		
+		
 	});
+	
 
-	context.subscriptions.push(disposable);
+	let myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 300);
+
+	myStatusBarItem.command = myListen;
+	myStatusBarItem.text = 'Edith';
+	
+		
+	context.subscriptions.push(myStatusBarItem);
+	myStatusBarItem.show();
+	console.log('Congratulations, your extension "edith" is now active!');
 }
+
+
 exports.activate = activate;
 
-// this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
 
 module.exports = {
 	activate,

@@ -78,7 +78,12 @@ def target_search(question, target):
 
 @app.get("/")
 async def index(request: Request):
-    return {"status": "server running"}
+    return {
+        "statusCode": 200,
+        'response':  "server OK"
+
+
+    }
 
 
 @app.get("/query/{full_query}")
@@ -90,6 +95,8 @@ async def get_query(full_query: str):
     data = json.loads(response.content)
 
     response = get_logic(data)
+
+    print(response)
 
     return {
         'statusCode': 200,

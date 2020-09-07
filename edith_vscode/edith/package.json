@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:edith.helloWorld"
+		"*"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -19,6 +19,7 @@
 				"command": "edith.helloWorld",
 				"title": "edith"
 			}
+			
 		]
 	},
 	"scripts": {
