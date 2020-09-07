@@ -3,7 +3,7 @@
 	"displayName": "Edith",
 	"description": "An AI Assistant for vscode",
 	"publisher": "Navaneethkt",
-	"version": "0.1.2",
+	"version": "0.2.0",
   "icon": "images/icon.png",
 	"engines": {
 		"vscode": "^1.48.0"

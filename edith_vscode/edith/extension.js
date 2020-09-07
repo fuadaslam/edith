@@ -28,7 +28,7 @@ function sentVoice(obj){
 	const fs = require('fs');
 	// console.log(data);
 	request({
-		url: 'http://0.0.0.0:5000/voice-query',
+		url: 'https://hello-edith.herokuapp.com/voice-query',
 		method: "POST",
 		headers: {
 			"content-type": "application/json",
@@ -75,7 +75,7 @@ function sentVoice(obj){
 		setTimeout(function () {
 				playSound();
 				console.log("play")
-			  }, 5000)
+			  }, 6000)
 	  }
 	  console.log("here")
 	  
