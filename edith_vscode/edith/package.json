@@ -1,9 +1,10 @@
 {
 	"name": "edith",
-	"displayName": "edith",
-	"description": "Assistant for vscode",
-  "publisher": "Navaneethkt",
-	"version": "0.0.1",
+	"displayName": "Edith",
+	"description": "An AI Assistant for vscode",
+	"publisher": "Navaneethkt",
+	"version": "0.1.2",
+  "icon": "images/icon.png",
 	"engines": {
 		"vscode": "^1.48.0"
 	},
@@ -20,7 +21,6 @@
 				"command": "edith.helloWorld",
 				"title": "edith"
 			}
-
 		]
 	},
 	"scripts": {

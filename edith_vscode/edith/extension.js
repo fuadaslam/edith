@@ -11,8 +11,9 @@ function sentVoice(obj){
 
 	const request = require('request');
 	const data = JSON.parse(obj)
+	console.log(data);
 	request({
-		url: 'http://127.0.0.1:8080/voice-query',
+		url: 'https://hello-edith.herokuapp.com/voice-query',
 		method: "POST",
 		headers: {
 			"content-type": "application/json",
