@@ -131,8 +131,7 @@ const request = require('request');
        json: obj
    //  body: JSON.stringify(requestData)
        }, function (error, resp, body) {
-  if (err) { return console.log(err); }
-  console.log(body.response);
+  console.log(body);
   // console.log(body.explanation);
 });
 

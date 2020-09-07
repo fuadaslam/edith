@@ -10,7 +10,8 @@ from bs4 import BeautifulSoup
 from fastapi import FastAPI
 from pydantic import BaseModel, Json
 from gtts import gTTS
-
+from fastapi.responses import FileResponse
+import base64
 
 
 API_ENDPOINT = 'https://api.wit.ai/message'
@@ -29,7 +30,11 @@ def speach_to_text(mytext):
     language = 'en'
     myobj = gTTS(text=mytext, lang=language, slow=False)
     myobj.save("/tmp/welcome.mp3")
-    return None
+    path = "/tmp/welcome.mp3"
+    f = open(path, 'rb')
+    b = base64.encodestring(f.read())
+    f.close()
+    return b
 
 
 def get_logic(data):
@@ -126,11 +131,11 @@ async def get_query(full_query: str):
 @app.post("/voice-query")
 async def from_server(item: dict):
     response = get_logic(item)
-    speach_to_text(response)
-
-    print(response)
+    speech = speach_to_text(response)
 
     return {
         'statusCode': 200,
-        'response':  response
+        'response':  response,
+        'speech_string': speech
+
     }

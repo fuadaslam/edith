@@ -5,24 +5,45 @@ const vscode = require('vscode');
  * 
  */
 
+function base64Process(dat){
+	'use strict';
+	const fs = require('fs');
+	// const data = JSON.parse(dat)
+	console.log("മാമനോടൊന്നും തോന്നല്ലേ മക്കളെ !");
+	let buff = new Buffer(dat.speech_string, 'base64');
+	fs.writeFileSync('/tmp/edith.mp3', buff);
+	// console.log(dat.speech_string)
+
+}
+
+
+
 
 function sentVoice(obj){
 
 
 	const request = require('request');
 	const data = JSON.parse(obj)
-	console.log(data);
+	'use strict';
+	const fs = require('fs');
+	// console.log(data);
 	request({
-		url: 'https://hello-edith.herokuapp.com/voice-query',
+		url: 'http://0.0.0.0:5000/voice-query',
 		method: "POST",
 		headers: {
 			"content-type": "application/json",
 			},
 		json: data
 		}, function (error, resp, body) {
-			if (err) { return console.log(err); }
+			
+			let dat = body;
+			base64Process(dat);
+			// console.log(dat.speech_string);
+			// const body = body;
 		});
-		
+
+		// let speech = JSON.parse(body);
+		// console.log(speech)
 	
 }
 
@@ -32,12 +53,10 @@ function sentVoice(obj){
 	var fs = require('fs');
 	var player = require('play-sound')(opts = {})
 
- 	player.play('/tmp/welcome.mp3', function (err) {
-		if (err) throw err;
+ 	player.play('/tmp/edith.mp3', function (err) {
 		console.log("Audio finished");
 		// fs.unlinkSync('/tmp/welcome.mp3');
-
- });
+	 });
 
 
  }
@@ -56,7 +75,7 @@ function sentVoice(obj){
 		setTimeout(function () {
 				playSound();
 				console.log("play")
-			  }, 3000)
+			  }, 5000)
 	  }
 	  console.log("here")
 	  
