@@ -7,11 +7,30 @@ import requests
 import json
 import wikipedia
 from bs4 import BeautifulSoup
+from fastapi import FastAPI
+from pydantic import BaseModel, Json
+# import speech_recognition as sr
+# import pyttsx3
+from gtts import gTTS
+
 
 
 API_ENDPOINT = 'https://api.wit.ai/message'
 
 wit_access_token = 'N2Y36TQWIDJ52VVFBKDJQOV4VVWZJQKL'
+
+# r = sr.Recognizer()
+
+
+class DynamicSchema(BaseModel):
+    item: Json
+
+
+def speach_to_text(mytext):
+    language = 'en'
+    myobj = gTTS(text=mytext, lang=language, slow=False)
+    myobj.save("welcome.mp3")
+    return None
 
 
 def get_logic(data):
@@ -88,13 +107,28 @@ async def index(request: Request):
 
 @app.get("/query/{full_query}")
 async def get_query(full_query: str):
-    # processed = quote(full_query)
-    headers = {'Authorization': 'Bearer '+ wit_access_token, }
-    params = (('v', '20200905'),('q', full_query),)
+    headers = {
+        'Authorization': 'Bearer ' + wit_access_token,
+    }
+    params = (('v', '20200905'), ('q', full_query),)
     response = requests.get(API_ENDPOINT, headers=headers, params=params)
     data = json.loads(response.content)
 
     response = get_logic(data)
+
+    print(response)
+
+    return {
+        'statusCode': 200,
+        'response':  response
+    }
+
+
+@app.post("/voice-query")
+async def from_server(item: dict):
+    import pdb; pdb.set_trace()
+    response = get_logic(item)
+    speach_to_text(response)
 
     print(response)
 

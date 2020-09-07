@@ -10,15 +10,37 @@ const vscode = require('vscode');
  */
 
 
+function sentVoice(obj){
+
+
+	const request = require('request');
+	request({
+		url: 'http://127.0.0.1:8080/voice-query',
+		method: "POST",
+		headers: {
+			"content-type": "application/json",
+			},
+		json: obj
+		}, function (error, resp, body) {
+			if (err) { return console.log(err); }
+		});
+		
+	
+}
+
 
  function playSound(){
 
 	var player = require('play-sound')(opts = {})
 
- 	player.play('test.wav', function (err) {
-  	 // if (err) throw err;
-	console.log("Audio finished");
-	   
+ 	player.play('/tmp/welcome.mp3', function (err) {
+		if (err) throw err;
+		console.log("Audio finished");
+		try {
+			fs.unlinkSync('/tmp/welcome.mp3')
+		} catch(err){
+			console.error(err)
+		}
  });
 
 
@@ -29,23 +51,36 @@ const vscode = require('vscode');
 
 	var record = require('node-mic-record')
 	var fs = require('fs')
-	
-	var file = fs.createWriteStream('test.wav', { encoding: 'binary' })
-	
-	record.start({
-		sampleRate : 44100,
-		verbose : true,
-		recordProgram: 'arecord'
+	var request = require('request')
+
+	exports.parseResult = function (err, resp, body) {
+
+		let obj = body
+		console.log(body)
+		sentVoice(obj);
+		// let obj = JSON.parse(body)
+		// console.log(obj.entities[0]);;
 	  }
-		
-	).pipe(file)
-	
-	// Stop recording after three seconds
-	setTimeout(function () {
-	  record.stop()
-	  console.log("audiso")
-	}, 5000)
-	// playSound();
+	  
+	  record.start(
+			  {
+			  sampleRate : 44100,
+			  verbose : true,
+			  recordProgram: 'arecord',
+		  silence: '3.0'
+			  }
+		  ).pipe(request.post({
+			  'url'     : 'https://api.wit.ai/speech?client=chromium&lang=en-us&output=json',
+			  'headers' : {
+				'Accept'        : 'application/vnd.wit.20160202+json',
+				'Authorization' : 'Bearer ' + 'N2Y36TQWIDJ52VVFBKDJQOV4VVWZJQKL',
+				'Content-Type'  : 'audio/wav'
+			  }
+			}, exports.parseResult))
+	  
+		  setTimeout(function () {
+			record.stop()
+		  }, 5000)
 	
 
  }
