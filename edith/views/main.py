@@ -34,7 +34,7 @@ def speach_to_text(mytext):
     f = open(path, 'rb')
     b = base64.encodestring(f.read())
     f.close()
-    return b
+    return b, mytext
 
 
 def get_logic(data):
@@ -120,8 +120,6 @@ async def get_query(full_query: str):
 
     response = get_logic(data)
 
-    print(response)
-
     return {
         'statusCode': 200,
         'response':  response
@@ -131,10 +129,11 @@ async def get_query(full_query: str):
 @app.post("/voice-query")
 async def from_server(item: dict):
     response = get_logic(item)
-    speech = speach_to_text(response)
+    speech, res = speach_to_text(response)
 
     return {
         'statusCode': 200,
+        # 'response':  res,
         'response':  response,
         'speech_string': speech
 

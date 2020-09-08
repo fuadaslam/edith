@@ -9,9 +9,11 @@ function base64Process(dat){
 	'use strict';
 	const fs = require('fs');
 	// const data = JSON.parse(dat)
+	console.log(dat);
 	console.log("മാമനോടൊന്നും തോന്നല്ലേ മക്കളെ !");
 	let buff = new Buffer(dat.speech_string, 'base64');
-	fs.writeFileSync('/tmp/edith.mp3', buff);
+	fs.writeFileSync('edith.mp3', buff);
+	vscode.window.showInformationMessage(dat.response);
 	// console.log(dat.speech_string)
 
 }
@@ -53,7 +55,7 @@ function sentVoice(obj){
 	var fs = require('fs');
 	var player = require('play-sound')(opts = {})
 
- 	player.play('/tmp/edith.mp3', function (err) {
+ 	player.play('edith.mp3', function (err) {
 		console.log("Audio finished");
 		// fs.unlinkSync('/tmp/welcome.mp3');
 	 });
@@ -83,8 +85,8 @@ function sentVoice(obj){
 			  {
 			  sampleRate : 44100,
 			  verbose : true,
-			  recordProgram: 'arecord',
-		  silence: '3.0'
+			  recordProgram: 'rec',
+		  	silence: '2.0'
 			  }
 		  ).pipe(request.post({
 			  'url'     : 'https://api.wit.ai/speech?client=chromium&lang=en-us&output=json',
